@@ -29,7 +29,7 @@ pipeline {
                 sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
                 sh "sed -i 's/'username'   => 'dtapi'/'username'   => '${env.DB_USER}'/g' ./application/config/database.php"
                 sh "sed -i 's/'password'   => 'dtapi'/'password'   => '${env.DB_PASS}'/g' ./application/config/database.php"
-                sh "rm -rf koseven/ Dockerfile Backend.groovy dtapi.sql README.md .git .gitignore"
+                sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
         stage("Build Docker Image") {
