@@ -6,7 +6,8 @@ RUN apk add --no-cache openrc apache2 php7-apache2 libmcrypt-dev php7 php7-fpm p
 RUN rc-update add php-fpm7 default
 RUN sed -i '265s/AllowOverride none/AllowOverride All/g' /etc/apache2/httpd.conf 
 RUN sed -i "s%#LoadModule rewrite_module%LoadModule rewrite_module%g" /etc/apache2/httpd.conf
-COPY dtapi/ /var/www/localhost/htdocs/dtapi
+RUN mkdir /var/www/localhost/htdocs/dtapi
+COPY ./ /var/www/localhost/htdocs/dtapi
 RUN chown apache. -R /var/www/localhost/htdocs/
 CMD ["-D","FOREGROUND"]
 ENTRYPOINT ["/usr/sbin/httpd"]
