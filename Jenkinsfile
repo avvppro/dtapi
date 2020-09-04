@@ -35,7 +35,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":backend$BUILD_NUMBER" 
+                    dockerImage = docker.build registry + ":dtester_backend" 
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:backend$BUILD_NUMBER"
+                sh "docker rmi $registry:dtester_backend"
                 sh 'rm -rf ./*'
             }
         } 
