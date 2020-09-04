@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage("Make Backend Files") {
             steps {
-                sh 'rm -rf ./koseven'
+                sh 'rm -rf ./koseven ./application/logs /application/cache'
                 sh 'git clone https://github.com/koseven/koseven'
                 sh 'mkdir ./application/logs ./application/cache'
                 sh 'chmod 766 ./application/logs'
