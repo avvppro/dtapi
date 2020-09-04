@@ -6,9 +6,6 @@ pipeline {
         registry = "avvppro/dtester" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
-        DB_HOST = 'a'
-        DB_USER = 'b'
-        DB_PASS = 'c'
     }
     agent any
     stages {
@@ -29,9 +26,9 @@ pipeline {
                 sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
                 sh "sed -i '107s|'/'|'/dtapi/'|g' ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
-                sh "sed -i 's/mysql:host=localhost/mysql:host=$DB_HOST/g' ./application/config/database.php"
-                sh "sed -i '43s/'dtapi'/'$DB_USER'/g' ./application/config/database.php"
-                sh "sed -i '44s/'dtapi'/'$DB_PASS'/g' ./application/config/database.php"
+                sh "sed -i 's/mysql:host=localhost/mysql:host=\$DB_HOST/g' ./application/config/database.php"
+                sh "sed -i '43s/'dtapi'/\$DB_USER'/g' ./application/config/database.php"
+                sh "sed -i '44s/'dtapi'/'\$DB_PASS'/g' ./application/config/database.php"
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
