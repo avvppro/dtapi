@@ -27,8 +27,8 @@ pipeline {
                 sh "sed -i '107s|'/'|'/dtapi/'|g' ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
                 sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
-                sh "sed -i 's/'username'   => 'dtapi'/'username'   => '${env.DB_USER}'/g' ./application/config/database.php"
-                sh "sed -i 's/'password'   => 'dtapi'/'password'   => '${env.DB_PASS}'/g' ./application/config/database.php"
+                sh "sed -i '43s/'dtapi'/'${env.DB_USER}'/g' ./application/config/database.php"
+                sh "sed -i '44s/'dtapi'/'${env.DB_PASS}'/g' ./application/config/database.php"
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
