@@ -34,6 +34,26 @@ pipeline {
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
-
+        stage("Build Docker Image") {
+            steps {
+                script { 
+                    dockerImage = docker.build registry + ":backend$BUILD_NUMBER" 
+                }
+            }
+        }
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
+            }
+        } 
+        stage('Cleaning up') { 
+            steps { 
+                sh "docker rmi $registry:backend$BUILD_NUMBER"
+            }
+        } 
     }
 }
