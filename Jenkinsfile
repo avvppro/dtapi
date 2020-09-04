@@ -11,7 +11,9 @@ pipeline {
     stages {
         stage("Make Backend Files") {
             steps {
+                sh 'rm -rf'
                 sh 'git clone https://github.com/koseven/koseven'
+                sh 'ls -la'
                 sh 'mkdir ./application/logs ./application/cache'
                 sh 'chmod 766 ./application/logs'
                 sh 'chmod 766 ./application/cache'
@@ -32,26 +34,6 @@ pipeline {
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
-        stage("Build Docker Image") {
-            steps {
-                script { 
-                    dockerImage = docker.build registry + ":backend$BUILD_NUMBER" 
-                }
-            }
-        }
-        stage('Deploy our image') { 
-            steps { 
-                script { 
-                    docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
-                    }
-                } 
-            }
-        } 
-        stage('Cleaning up') { 
-            steps { 
-                sh "docker rmi $registry:backend$BUILD_NUMBER"
-            }
-        } 
+
     }
 }
