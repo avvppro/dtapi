@@ -6,6 +6,9 @@ pipeline {
         registry = "avvppro/dtester" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
+        - DB_HOST
+        - DB_USER
+        - DB_PASS
     }
     agent any
     stages {
@@ -23,13 +26,12 @@ pipeline {
         }
         stage("Set variables") {
             steps {
-                load "$JENKINS_HOME/dtvariables.groovy"
                 sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
                 sh "sed -i '107s|'/'|'/dtapi/'|g' ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
-                sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
-                sh "sed -i '43s/'dtapi'/'${env.DB_USER}'/g' ./application/config/database.php"
-                sh "sed -i '44s/'dtapi'/'${env.DB_PASS}'/g' ./application/config/database.php"
+                sh "sed -i 's/mysql:host=localhost/mysql:host=$DB_HOST/g' ./application/config/database.php"
+                sh "sed -i '43s/'dtapi'/'$DB_USER'/g' ./application/config/database.php"
+                sh "sed -i '44s/'dtapi'/'$DB_PASS'/g' ./application/config/database.php"
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
