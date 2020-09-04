@@ -12,6 +12,7 @@ pipeline {
     stages {
         stage("Make Backend Files") {
             steps {
+                sh 'rm -rf ./*'
                 sh 'git clone https://github.com/koseven/koseven'
                 sh 'mkdir ./application/logs ./application/cache'
                 sh 'chmod 766 ./application/logs'
@@ -52,7 +53,6 @@ pipeline {
         stage('Cleaning up') { 
             steps { 
                 sh "docker rmi $registry:dtester_backend"
-                sh 'rm -rf ./*'
             }
         } 
     }
