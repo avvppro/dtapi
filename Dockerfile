@@ -9,9 +9,9 @@ RUN rc-update add php-fpm7 default
 RUN sed -i '265s/AllowOverride none/AllowOverride All/g' /etc/apache2/httpd.conf 
 RUN sed -i "s%#LoadModule rewrite_module%LoadModule rewrite_module%g" /etc/apache2/httpd.conf
 # Copy backend files
-RUN mkdir /var/www/localhost/htdocs/dtapi
-RUN chmod 777 /var/www/localhost/htdocs/dtapi
-COPY ./* /var/www/localhost/htdocs/dtapi
+RUN mkdir /var/www/localhost/htdocs/dtapi/
+RUN chmod 777 /var/www/localhost/htdocs/dtapi/
+COPY ./* /var/www/localhost/htdocs/dtapi/
 # Acess for web users
 RUN chown apache. -R /var/www/localhost/htdocs/
 # Run httpd in foreground so that the container does not quit
