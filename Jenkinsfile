@@ -6,8 +6,6 @@ pipeline {
         registry = "avvppro/dtester" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
-    }
-    args {
         DB_HOST = ''
         DB_USER = ''
         DB_PASS = ''
