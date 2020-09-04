@@ -6,7 +6,6 @@ pipeline {
         registry = "avvppro/dtester" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
-        DB_HOSTIK = "172.33.0.8"
     }
     agent any
     stages {
