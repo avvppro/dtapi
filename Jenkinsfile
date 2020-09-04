@@ -24,7 +24,7 @@ pipeline {
             steps {
                 load "$JENKINS_HOME/dtvariables.groovy"
                 sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
-                sh "sed -i 's|'/'|'/dtapi/'|g' ./application/bootstrap.php"
+                sh "sed -i "s|'base_url'   => '/'|'base_url'   => '/dtapi/'|g" ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
                 sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
                 sh "sed -i 's/'username'   => 'dtapi'/'username'   => '${env.DB_USER}'/g' ./application/config/database.php"
