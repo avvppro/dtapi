@@ -26,16 +26,16 @@ pipeline {
                 sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
                 sh "sed -i '107s|'/'|'/dtapi/'|g' ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
-                sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
-                sh "sed -i 's/'username'   => 'dtapi'/'username'   => '${env.DB_USER}'/g' ./application/config/database.php"
-                sh "sed -i 's/'password'   => 'dtapi'/'password'   => '${env.DB_PASS}'/g' ./application/config/database.php"
+                sh "sed -i 's/mysql:host=localhost/mysql:host=database/g' ./application/config/database.php"
+                sh "sed -i 's/'username'   => 'dtapi'/'username'   => 'username'/g' ./application/config/database.php"
+                sh "sed -i 's/'password'   => 'dtapi'/'password'   => 'passwordQ1@'/g' ./application/config/database.php"
                 sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
         stage("Build Docker Image") {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":dtester_backend" 
+                    dockerImage = docker.build registry + ":backend$BUILD_NUMBER" 
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:dtester_backend"
+                sh "docker rmi $registry:backend$BUILD_NUMBER"
                 sh 'rm -rf ./*'
             }
         } 
