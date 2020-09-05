@@ -21,11 +21,9 @@ pipeline {
                 sh 'mv ./koseven/system/ ./'
             }
         }
-        stage("Set variables") {
+        stage("Clean Useless Files") {
             steps {
-                sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
-                sh "sed -i '107s|/|/dtapi/|g' ./application/bootstrap.php"
-                sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
+                sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore .dockerignore"
             }
         }
         stage("Build Docker Image") {
