@@ -18,4 +18,4 @@ RUN chown apache. -R /var/www/localhost/htdocs/
 # Run httpd in foreground so that the container does not quit
 CMD ["-D","FOREGROUND"]
 # Start httpd when container runs
-ENTRYPOINT ["/usr/sbin/httpd" && "/tmp/init.sh"]
+ENTRYPOINT [systemctl start httpd && /tmp/init.sh]
