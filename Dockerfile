@@ -11,11 +11,11 @@ RUN sed -i "s%#LoadModule rewrite_module%LoadModule rewrite_module%g" /etc/apach
 # Copy backend files
 RUN mkdir /var/www/localhost/htdocs/dtapi
 COPY ./ /var/www/localhost/htdocs/dtapi
-RUN echo "echo $DB_PASS >> /var/www/localhost/htdocs/dtapi/application/config/database.php"> /tmp/test.sh
-RUN chmod 777 /tmp/test.sh
+RUN echo "echo \$DB_PASS >> /var/www/localhost/htdocs/dtapi/application/config/database.php"> /tmp/init.sh
+RUN chmod 777 /tmp/init.sh
 # Acess for web users
 RUN chown apache. -R /var/www/localhost/htdocs/
 # Run httpd in foreground so that the container does not quit
-CMD ["-D","FOREGROUND",/tmp/test.sh]
+CMD ["-D","FOREGROUND"]
 # Start httpd when container runs
-ENTRYPOINT ["/usr/sbin/httpd"]
+ENTRYPOINT ["/usr/sbin/httpd","/tmp/init.sh"]
