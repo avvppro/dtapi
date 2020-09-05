@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage("Make Backend Files") {
             steps {
-                sh 'rm -rf ./koseven ./application/logs ./application/cache ./modules ./system ./public'
+                sh 'rm -rf ./!(*rfile)'
                 sh 'git clone https://github.com/koseven/koseven'
                 sh 'mkdir ./application/logs ./application/cache'
                 sh 'chmod 766 ./application/logs'
@@ -26,10 +26,9 @@ pipeline {
                 sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
                 sh "sed -i '107s|/|/dtapi/|g' ./application/bootstrap.php"
                 sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
-                sh "sed -i 's/mysql:host=localhost/mysql:host=\${DB_HOST}/g' ./application/config/database.php"
-                sh "sed -i '43s/dtapi/\${DB_USER}/g' ./application/config/database.php"
+                sh "sed -i 's/mysql:host=localhost/mysql:host=\$DB_HOST/g' ./application/config/database.php"
+                sh "sed -i '43s/dtapi/\$DB_USER/g' ./application/config/database.php"
                 sh "sed -i '44s/dtapi/\$DB_PASS/g' ./application/config/database.php"
-                sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
             }
         }
         stage("Build Docker Image") {
