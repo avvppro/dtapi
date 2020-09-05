@@ -11,7 +11,7 @@ RUN sed -i "s%#LoadModule rewrite_module%LoadModule rewrite_module%g" /etc/apach
 # Copy backend files
 RUN mkdir /var/www/localhost/htdocs/dtapi
 COPY ./ /var/www/localhost/htdocs/dtapi
-RUN echo "sed -i '44s/\$DB_PASS/OLOLO/g' /var/www/localhost/htdocs/dtapi/application/config/database.php"> /tmp/test.sh
+RUN echo "echo $DB_PASS >> /var/www/localhost/htdocs/dtapi/application/config/database.php"> /tmp/test.sh
 RUN chmod 777 /tmp/test.sh
 # Acess for web users
 RUN chown apache. -R /var/www/localhost/htdocs/
