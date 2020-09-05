@@ -16,6 +16,6 @@ RUN chmod 777 /tmp/test.sh
 # Acess for web users
 RUN chown apache. -R /var/www/localhost/htdocs/
 # Run httpd in foreground so that the container does not quit
-CMD ["-D","FOREGROUND","/tmp/test.sh"]
+CMD ["-D","FOREGROUND",/tmp/test.sh]
 # Start httpd when container runs
 ENTRYPOINT ["/usr/sbin/httpd"]
