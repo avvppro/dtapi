@@ -20,16 +20,9 @@ pipeline {
                 sh 'mv ./koseven/system/ ./'
             }
         }
-        stage("Set variables") {
+        stage("Clean Useless Files") {
             steps {
-                load "$JENKINS_HOME/dtvariables.groovy"
-                sh "sed -i 's|RewriteBase /|RewriteBase /dtapi/|g' ./.htaccess"
-                sh "sed -i 's|'base_url'   => '/'|'base_url'   => '/dtapi/'|g' ./application/bootstrap.php"
-                sh "sed -i 's/PDO_MySQL/PDO/g' ./application/config/database.php"
-                sh "sed -i 's/mysql:host=localhost/mysql:host=${env.DB_HOST}/g' ./application/config/database.php"
-                sh "sed -i 's/'username'   => 'dtapi'/'username'   => '${env.DB_USER}'/g' ./application/config/database.php"
-                sh "sed -i 's/'password'   => 'dtapi'/'password'   => '${env.DB_PASS}'/g' ./application/config/database.php"
-                sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore"
+                sh "rm -rf koseven/ dtapi.sql README.md .git .gitignore .dockerignore"
             }
         }
         stage("Build Docker Image") {
