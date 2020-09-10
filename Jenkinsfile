@@ -45,7 +45,8 @@ pipeline {
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "echo docker rmi $registry:${env.BUILD_ID}"
+                sh "echo docker rmi $registry:${VERSION}"
+                sh "echo docker rmi $registry:latest"
             }
         } 
     }
