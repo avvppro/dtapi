@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script { 
                     dockerImage = docker.build registry + ":${VERSION}" 
-                    dockerLatest = sh "${registry}:${VERSION} ${registry}:latest"
+                    dockerLatest = sh "docker tag ${registry}:${VERSION} ${registry}:latest"
                 }
             }
         }
