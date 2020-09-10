@@ -7,7 +7,6 @@ pipeline {
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
         VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
-
     }
     agent any
     stages {
