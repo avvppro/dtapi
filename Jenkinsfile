@@ -31,7 +31,7 @@ pipeline {
                 script { 
                     dockerImage = docker.build registry + ":${env.BUILD_ID}" 
                 }
-                sh "docker tag ${registry}:latest ${registry}:${VERSION}"
+                sh "docker tag  ${registry}:${VERSION} ${registry}:latest"
             }
         }
         stage('Deploy our image') { 
@@ -45,7 +45,7 @@ pipeline {
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:${env.BUILD_ID}"
+                sh "echo docker rmi $registry:${env.BUILD_ID}"
             }
         } 
     }
