@@ -29,9 +29,9 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":${env.BUILD_ID}" 
+                    dockerImage = docker.build registry + ":${VERSION}" 
+                    dockerLatest = sh "${registry}:${VERSION} ${registry}:latest"
                 }
-                sh "docker tag  ${registry}:${VERSION} ${registry}:latest"
             }
         }
         stage('Deploy our image') { 
@@ -39,6 +39,7 @@ pipeline {
                 script { 
                     docker.withRegistry( '', registryCredential ) { 
                         dockerImage.push() 
+                        dockerLatest.push()
                     }
                 } 
             }
