@@ -6,6 +6,8 @@ pipeline {
         registry = "avvppro/dt-back" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+
     }
     agent any
     stages {
@@ -28,7 +30,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":${env.BUILD_ID}" 
+                    dockerImage = docker.build registry 
                 }
             }
         }
@@ -36,14 +38,16 @@ pipeline {
             steps { 
                 script { 
                     docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
+                        dockerImage.push("${VERSION}") 
+                        dockerImage.push("latest") 
                     }
                 } 
             }
         } 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:${env.BUILD_ID}"
+                sh "docker rmi $registry:${VERSION}"
+                sh "docker rmi $registry:latest"
             }
         } 
     }
