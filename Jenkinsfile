@@ -29,9 +29,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script { 
-                    dockerImage = docker.build registry + ":${VERSION}" 
-                    sh "docker tag ${registry}:${VERSION} ${registry}:latest"
-                    dockerLatest = "${registry}:latest"
+                    dockerImage = docker.build registry 
                 }
             }
         }
@@ -39,16 +37,8 @@ pipeline {
             steps { 
                 script { 
                     docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push() 
-                    }
-                } 
-            }
-        } 
-                stage('Deploy latest image') { 
-            steps { 
-                script { 
-                    docker.withRegistry( '', registryCredential ) { 
-                        dockerLatest.push() 
+                        dockerImage.push("${VERSION}") 
+                        dockerImage.push("latest") 
                     }
                 } 
             }
