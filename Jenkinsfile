@@ -6,6 +6,7 @@ pipeline {
         registry = "avvppro/dt-back" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
     }
     agent any
     stages {
@@ -30,6 +31,7 @@ pipeline {
                 script { 
                     dockerImage = docker.build registry + ":${env.BUILD_ID}" 
                 }
+                sh "docker tag ${registry}:latest ${registry}:${VERSION}"
             }
         }
         stage('Deploy our image') { 
